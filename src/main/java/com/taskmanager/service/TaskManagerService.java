@@ -4,12 +4,11 @@ import com.taskmanager.entity.Task;
 import com.taskmanager.entity.TaskList;
 import com.taskmanager.entity.TaskListRepository;
 import com.taskmanager.entity.TaskRepository;
-import com.taskmanager.exception.InvalidRequestException;
-import com.taskmanager.exception.RecordNotFoundException;
 import com.taskmanager.model.request.TaskListRequest;
 import com.taskmanager.model.request.TaskRequest;
 import com.taskmanager.model.response.TaskListResponse;
 import com.taskmanager.model.response.TaskResponse;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -68,7 +67,7 @@ public class TaskManagerService {
         Task task = findTaskById(taskId);
 
         if (!task.getTaskList().getId().equals(list.getId())) {
-            throw new InvalidRequestException("Task does not belong to the specified list");
+            throw new IllegalArgumentException("Task does not belong to the specified list");
         }
 
         taskRepository.delete(task);
@@ -81,7 +80,7 @@ public class TaskManagerService {
         Task task = findTaskById(taskId);
 
         if (!task.getTaskList().getId().equals(fromList.getId())) {
-            throw new InvalidRequestException("Task does not belong to the source list");
+            throw new IllegalArgumentException("Task does not belong to the source list");
         }
 
         task.setTaskList(toList);
@@ -90,11 +89,11 @@ public class TaskManagerService {
 
     private TaskList findTaskListById(Long id) {
         return taskListRepository.findById(id)
-                .orElseThrow(() -> new RecordNotFoundException("List not found with id " + id));
+                .orElseThrow(() -> new EntityNotFoundException("List not found with id " + id));
     }
 
     private Task findTaskById(Long id) {
         return taskRepository.findById(id)
-                .orElseThrow(() -> new RecordNotFoundException("Task not found with id " + id));
+                .orElseThrow(() -> new EntityNotFoundException("Task not found with id " + id));
     }
 }

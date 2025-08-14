@@ -33,36 +33,36 @@ public class TaskManagerController {
 
     @ValidateRequest
     @PostMapping("/lists/{listId}/tasks")
-    public ResponseEntity<TaskResponse> addTaskToList(@PathVariable Long listId, @RequestBody TaskRequest newTask) {
+    public ResponseEntity<TaskResponse> addTaskToList(@PathVariable("listId") Long listId, @RequestBody TaskRequest newTask) {
         return ResponseEntity.ok(taskManagerService.addTaskToList(listId, newTask));
     }
 
     @ValidateRequest
     @PutMapping("/tasks/{taskId}")
-    public ResponseEntity<TaskResponse> updateTask(@PathVariable Long taskId,
+    public ResponseEntity<TaskResponse> updateTask(@PathVariable("taskId") Long taskId,
                                                    @RequestBody TaskRequest updatedTask) {
         return ResponseEntity.ok(taskManagerService.updateTask(taskId, updatedTask));
     }
 
     @ValidateRequest
     @DeleteMapping("/lists/{listId}/tasks/{taskId}")
-    public ResponseEntity<Void> deleteTask(@PathVariable Long listId, @PathVariable Long taskId) {
+    public ResponseEntity<Void> deleteTask(@PathVariable("listId") Long listId, @PathVariable("taskId") Long taskId) {
         taskManagerService.deleteTask(listId, taskId);
         return ResponseEntity.noContent().build();
     }
 
     @ValidateRequest
     @DeleteMapping("/lists/{listId}")
-    public ResponseEntity<Void> deleteList(@PathVariable Long listId) {
+    public ResponseEntity<Void> deleteList(@PathVariable("listId") Long listId) {
         taskManagerService.deleteList(listId);
         return ResponseEntity.noContent().build();
     }
 
     @ValidateRequest
     @PutMapping("/lists/{fromListId}/tasks/{taskId}/move/{toListId}")
-    public ResponseEntity<TaskResponse> moveTask(@PathVariable Long fromListId,
-                                                 @PathVariable Long taskId,
-                                                 @PathVariable Long toListId) {
+    public ResponseEntity<TaskResponse> moveTask(@PathVariable("fromListId") Long fromListId,
+                                                 @PathVariable("taskId") Long taskId,
+                                                 @PathVariable("toListId") Long toListId) {
         return ResponseEntity.ok(taskManagerService.moveTask(fromListId, taskId, toListId));
     }
 }
