@@ -1,18 +1,19 @@
-FROM maven:3.9.3-eclipse-temurin-21 AS build
+# Use Eclipse Temurin 21 JDK
+FROM eclipse-temurin:21-jdk
+
+# Install Maven (if not using Maven wrapper)
+RUN apt-get update && apt-get install -y maven
 
 WORKDIR /app
-COPY pom.xml .
 
-RUN mvn dependency:go-offline
+# Copy pom.xml first (for dependency caching)
+COPY pom.xml ./
+
+# Copy source code
 COPY src ./src
 
-# To follow best practices, we do not skip tests.
-# The CI/CD pipeline should fail if the implementation causes test failures.
+# Build the project, we don't skip tests so if test fails it breaks build pipeline same as production system
 RUN mvn clean package
 
-FROM eclipse-temurin:21-jre-alpine
-
-WORKDIR /app
-COPY --from=build /app/target/task-manager-service-1.0-SNAPSHOT.jar app.jar
-EXPOSE 8080
-ENTRYPOINT ["java","-jar","app.jar"]
+# Run the app
+CMD ["java", "-jar", "target/task-manager-service-1.0-SNAPSHOT.jar"]

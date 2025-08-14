@@ -2,7 +2,7 @@ version: "3.9"
 services:
   postgres:
     image: postgres:16
-    container_name: taskmanager-postgres
+    container_name: task-manager-service-postgres
     restart: unless-stopped
     environment:
       POSTGRES_USER: taskmanager
@@ -12,6 +12,22 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+
+  app:
+    image: eclipse-temurin:21-jdk
+    container_name: task-manager-service
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - postgres
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/taskmanagerservice
+      SPRING_DATASOURCE_USERNAME: taskmanager
+      SPRING_DATASOURCE_PASSWORD: pass1234
+    ports:
+      - "8080:8080"
+
 
 volumes:
   postgres_data:
