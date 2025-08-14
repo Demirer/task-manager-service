@@ -15,7 +15,7 @@
         private String name;
         private String description;
 
-        public static TaskResponse fromEntity(Task task) {
+        public static TaskResponse from(Task task) {
             return TaskResponse.builder()
                     .id(task.getId())
                     .name(task.getName())

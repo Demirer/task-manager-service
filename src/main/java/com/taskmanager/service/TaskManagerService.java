@@ -24,7 +24,7 @@ public class TaskManagerService {
 
     public List<TaskListResponse> getAllLists() {
         return taskListRepository.findAllWithTasks().stream()
-                .map(TaskListResponse::fromEntity)
+                .map(TaskListResponse::from)
                 .toList();
     }
 
@@ -33,7 +33,7 @@ public class TaskManagerService {
         TaskList list = new TaskList();
         list.setName(request.getName());
         TaskList saved = taskListRepository.save(list);
-        return TaskListResponse.fromEntity(saved);
+        return TaskListResponse.from(saved);
     }
 
     @Transactional
@@ -50,7 +50,12 @@ public class TaskManagerService {
         task.setDescription(request.getDescription());
         task.setTaskList(list);
 
-        return TaskResponse.fromEntity(taskRepository.save(task));
+        Task saved = taskRepository.save(task);
+
+        // Add task to list's collection
+        list.getTasks().add(saved);
+
+        return TaskResponse.from(saved);
     }
 
     @Transactional
@@ -58,7 +63,7 @@ public class TaskManagerService {
         Task task = findTaskById(taskId);
         task.setName(request.getName());
         task.setDescription(request.getDescription());
-        return TaskResponse.fromEntity(taskRepository.save(task));
+        return TaskResponse.from(taskRepository.save(task));
     }
 
     @Transactional
@@ -84,7 +89,7 @@ public class TaskManagerService {
         }
 
         task.setTaskList(toList);
-        return TaskResponse.fromEntity(taskRepository.save(task));
+        return TaskResponse.from(taskRepository.save(task));
     }
 
     private TaskList findTaskListById(Long id) {

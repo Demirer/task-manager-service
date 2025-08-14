@@ -17,9 +17,9 @@ public class TaskListResponse {
     private String name;
     private List<TaskResponse> tasks;
 
-    public static TaskListResponse fromEntity(TaskList list) {
+    public static TaskListResponse from(TaskList list) {
         List<TaskResponse> tasks = list.getTasks().stream()
-                .map(TaskResponse::fromEntity)
+                .map(TaskResponse::from)
                 .toList();
         return TaskListResponse.builder()
                 .id(list.getId())
