@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: task-manager-service   # Project name for logs and Actuator endpoints
+
+  datasource:
+    url: jdbc:postgresql://postgres:5432/taskmanagerservice
+    username: taskmanager
+    password: pass1234
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update   # or 'validate' in production
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+server:
+  port: 8080  # Custom port instead of default 8080 if needed
+
+logging:
+  level:
+    root: INFO
+    org.springframework.web: DEBUG
+    com.taskmanager: DEBUG  # Your package for detailed logs
