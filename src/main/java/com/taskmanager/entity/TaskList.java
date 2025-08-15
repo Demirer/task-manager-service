@@ -8,8 +8,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "task_list")
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 public class TaskList {
 

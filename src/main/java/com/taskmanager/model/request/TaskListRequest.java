@@ -1,8 +1,12 @@
 package com.taskmanager.model.request;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class TaskListRequest {
     private String name;
 

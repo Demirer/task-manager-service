@@ -1,3 +1,5 @@
+package unit;
+
 import com.taskmanager.entity.Task;
 import com.taskmanager.entity.TaskList;
 import com.taskmanager.model.response.TaskListResponse;
@@ -9,7 +11,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class ConverterTests {
+class ConverterTest {
 
     @Test
     @DisplayName("Convert Task entity to TaskResponse")
