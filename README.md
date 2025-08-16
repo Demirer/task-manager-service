@@ -206,11 +206,32 @@ docker compose up --build
 ```
 
 #### Option 2: Clone image from DockerHub
-You can run the Task Manager service directly from Docker Hub without building it locally:
+If you don’t want to use Docker Compose from the source directory, 
+you can run the Task Manager service directly from Docker Hub without building it locally.
 
 My DockerHub profile: https://hub.docker.com/u/oguzhandemirer
 
+You need to pull the PostgreSQL image first, then pull the project image from my personal Docker Hub profile. 
+To provide persistence and meet the application’s requirements, we are using a relational database. 
+Therefore, the PostgreSQL image is mandatory for the application to start.
+
 ```bash
-# Pull the latest image from Docker Hub
-docker pull oguzhandemirer/task-manager-service:latest
+# Run image for PostgresSQL database.
+docker run -d --name task-manager-service-postgres \
+  -e POSTGRES_USER=taskmanager \
+  -e POSTGRES_PASSWORD=pass1234 \
+  -e POSTGRES_DB=taskmanagerservice \
+  -p 5432:5432 \
+  postgres:16
+```
+
+```bash
+# Run image for task-manager-application (This must executed after SQL).
+docker run -d --name task-manager-service \
+  --link task-manager-service-postgres:postgres \
+  -e SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/taskmanagerservice \
+  -e SPRING_DATASOURCE_USERNAME=taskmanager \
+  -e SPRING_DATASOURCE_PASSWORD=pass1234 \
+  -p 8080:8080 \
+  oguzhandemirer/task-manager-service:latest
 ```
