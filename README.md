@@ -7,7 +7,18 @@ ensuring data consistency and performance optimizations.
 The Task Manager service can be run locally using Docker Compose, which sets up both the application and the PostgreSQL database. 
 The database uses a named volume to persist data across container restarts, ensuring that all lists and tasks remain intact even if the containers are stopped or recreated. 
 Data is only lost if the volume or container is explicitly deleted. This approach allows developers to start the service quickly without installing Java, Maven, or PostgreSQL locally.
-
+---
+## Documentation Content
+- Tech Stack & Tools
+- User Stories
+- Architecture Overview
+- Service Layer Responsibilities
+- Validation Rules
+- Performance Notes
+- Domain & Data Model
+- API Overview
+- Request/Response Examples
+- How to run application
 ---
 ## Tech Stack & Tools
 
@@ -34,10 +45,7 @@ Data is only lost if the volume or container is explicitly deleted. This approac
     - Lombok (To reduce boilerplate code)
     - SLF4J + Logback (logging)
     - EntityGraph (To solve N+1 query problem)
-
-
 ---
-
 ## User Stories
 
 - View all lists and their tasks
@@ -47,9 +55,7 @@ Data is only lost if the volume or container is explicitly deleted. This approac
 - Delete a task from a list
 - Delete an entire list with all its tasks
 - Move a task to a different list
-
 ---
-
 ## Architecture Overview
 
 The Task Manager service follows a layered architecture:
@@ -84,7 +90,7 @@ sequenceDiagram
     Controller -->> Client: HTTP Response
 ```
 
-### Layer Responsibilities
+### Service Layer Responsibilities
 - Controller: HTTP I/O, delegates to service, runs request DTO validation.
 - Service: Business logic, repository coordination, mapping to responses.
 - Repositories: Persistence with Spring Data JPA.
@@ -111,7 +117,7 @@ sequenceDiagram
 @Query("select tl from TaskList tl")
 List<TaskList> findAllWithTasks();
 ```
-
+---
 ## Domain & Data Model
 
 ### Entities
@@ -136,7 +142,6 @@ erDiagram
     }
 ```
 ---
-
 ## API Overview
 
 Base path: `/api/v1/task-manager`
@@ -189,8 +194,8 @@ curl -X DELETE http://localhost:8080/api/v1/task-manager/lists/1
 ```bash
 curl -X PUT http://localhost:8080/api/v1/task-manager/lists/1/tasks/1/move/2
 ```
-
-## Run Locally
+---
+## How to run application
 
 ### Prerequisites
 - Docker
@@ -235,3 +240,4 @@ docker run -d --name task-manager-service \
   -p 8080:8080 \
   oguzhandemirer/task-manager-service:latest
 ```
+---
