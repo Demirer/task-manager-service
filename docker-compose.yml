@@ -10,8 +10,10 @@ services:
       POSTGRES_DB: taskmanagerservice
     ports:
       - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
+    # Store data inside the container itself (no named volume)
+    # If you delete the container, data is gone
+    # volumes:
+    #   - postgres_data:/var/lib/postgresql/data
 
   app:
     image: eclipse-temurin:21-jdk
@@ -28,5 +30,5 @@ services:
     ports:
       - "8080:8080"
 
-volumes:
-  postgres_data:
+#volumes:
+#  postgres_data:

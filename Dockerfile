@@ -2,7 +2,9 @@
 FROM eclipse-temurin:21-jdk
 
 # Install Maven (if not using Maven wrapper)
-RUN apt-get update && apt-get install -y maven
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends maven \
+    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 

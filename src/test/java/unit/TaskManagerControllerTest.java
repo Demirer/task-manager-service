@@ -14,6 +14,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
@@ -55,10 +56,10 @@ class TaskManagerControllerTest {
 
         ResponseEntity<List<TaskListResponse>> response = controller.getLists();
 
-        assertThat(response.getStatusCodeValue()).isEqualTo(200);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).hasSize(1);
-        assertThat(response.getBody().get(0).getId()).isEqualTo(sampleList.getId());
-        assertThat(response.getBody().get(0).getName()).isEqualTo(sampleList.getName());
+        assertThat(response.getBody().getFirst().getId()).isEqualTo(sampleList.getId());
+        assertThat(response.getBody().getFirst().getName()).isEqualTo(sampleList.getName());
     }
 
     @Test
@@ -71,7 +72,7 @@ class TaskManagerControllerTest {
 
         ResponseEntity<TaskListResponse> response = controller.createList(request);
 
-        assertThat(response.getStatusCodeValue()).isEqualTo(200);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isNotNull();
         assertThat(response.getBody().getId()).isEqualTo(sampleList.getId());
         assertThat(response.getBody().getName()).isEqualTo(sampleList.getName());
@@ -88,7 +89,7 @@ class TaskManagerControllerTest {
 
         ResponseEntity<TaskResponse> response = controller.addTaskToList(1L, taskRequest);
 
-        assertThat(response.getStatusCodeValue()).isEqualTo(200);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isNotNull();
         assertThat(response.getBody().getId()).isEqualTo(sampleTask.getId());
         assertThat(response.getBody().getName()).isEqualTo(sampleTask.getName());
@@ -122,7 +123,7 @@ class TaskManagerControllerTest {
 
         ResponseEntity<TaskResponse> response = controller.updateTask(1L, taskRequest);
 
-        assertThat(response.getStatusCodeValue()).isEqualTo(200);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isNotNull();
         assertThat(response.getBody().getId()).isEqualTo(sampleTask.getId());
         assertThat(response.getBody().getName()).isEqualTo(sampleTask.getName());
@@ -136,7 +137,7 @@ class TaskManagerControllerTest {
 
         ResponseEntity<Void> response = controller.deleteTask(1L, 1L);
 
-        assertThat(response.getStatusCodeValue()).isEqualTo(204);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
         assertThat(response.getBody()).isNull();
     }
 
@@ -147,7 +148,7 @@ class TaskManagerControllerTest {
 
         ResponseEntity<Void> response = controller.deleteList(1L);
 
-        assertThat(response.getStatusCodeValue()).isEqualTo(204);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
         assertThat(response.getBody()).isNull();
     }
 
@@ -163,7 +164,7 @@ class TaskManagerControllerTest {
 
         ResponseEntity<TaskResponse> response = controller.moveTask(1L, 1L, 2L);
 
-        assertThat(response.getStatusCodeValue()).isEqualTo(200);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isNotNull();
         assertThat(response.getBody().getId()).isEqualTo(movedTask.getId());
         assertThat(response.getBody().getName()).isEqualTo(movedTask.getName());

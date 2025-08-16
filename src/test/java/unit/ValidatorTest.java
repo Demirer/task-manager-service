@@ -7,13 +7,23 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class ValidatorTest {
+class ValidatorTest {
 
     @Test
     @DisplayName("TaskRequest with blank name should throw exception")
     void testBlankTaskName() {
         TaskRequest task = new TaskRequest();
         task.setName("");
+
+        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, task::validate);
+        assertEquals("Task name is required", ex.getMessage());
+    }
+
+    @Test
+    @DisplayName("TaskRequest with blank name should throw exception")
+    void testNullTaskName() {
+        TaskRequest task = new TaskRequest();
+        task.setName(null);
 
         IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, task::validate);
         assertEquals("Task name is required", ex.getMessage());
@@ -27,6 +37,28 @@ public class ValidatorTest {
 
         IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, task::validate);
         assertEquals("Task name must be at most 128 characters", ex.getMessage());
+    }
+
+    @Test
+    @DisplayName("TaskRequest with blank description should throw exception")
+    void testBlankTaskDescription() {
+        TaskRequest task = new TaskRequest();
+        task.setName("Valid Name");
+        task.setDescription("");
+
+        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, task::validate);
+        assertEquals("Task description is required", ex.getMessage());
+    }
+
+    @Test
+    @DisplayName("TaskRequest with null description should throw exception")
+    void testNullTaskDescription() {
+        TaskRequest task = new TaskRequest();
+        task.setName("Valid Name");
+        task.setDescription(null);
+
+        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, task::validate);
+        assertEquals("Task description is required", ex.getMessage());
     }
 
     @Test

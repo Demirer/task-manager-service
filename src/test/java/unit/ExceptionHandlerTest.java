@@ -5,6 +5,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.Map;
@@ -27,7 +28,7 @@ class ExceptionHandlerTest {
 
         ResponseEntity<Map<String, Object>> response = exceptionHandler.handleInvalidRequest(ex);
 
-        assertEquals(400, response.getStatusCodeValue());
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         Map<String, Object> body = response.getBody();
         assertNotNull(body);
         assertEquals(400, body.get("status"));
@@ -43,7 +44,7 @@ class ExceptionHandlerTest {
 
         ResponseEntity<Map<String, Object>> response = exceptionHandler.handleNotFound(ex);
 
-        assertEquals(404, response.getStatusCodeValue());
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
         Map<String, Object> body = response.getBody();
         assertNotNull(body);
         assertEquals(404, body.get("status"));
@@ -59,7 +60,7 @@ class ExceptionHandlerTest {
 
         ResponseEntity<Map<String, Object>> response = exceptionHandler.handleGenericException(ex);
 
-        assertEquals(500, response.getStatusCodeValue());
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
         Map<String, Object> body = response.getBody();
         assertNotNull(body);
         assertEquals(500, body.get("status"));

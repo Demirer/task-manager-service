@@ -13,7 +13,10 @@ import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
+/**
+ * Represents a task in the task management system.
+ * Each task has a name, description, and belongs to a {@link TaskList}.
+ */
 @Entity
 @Table(
         name = "task",
@@ -25,16 +28,29 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Task {
 
+    /**
+     * Unique identifier for the task.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    /**
+     * Name of the task. Cannot be null and has a maximum length of 128 characters.
+     */
     @Column(nullable = false, length = 128)
     private String name;
 
-    @Column(length = 128)
+    /**
+     * Description of the task. Cannot be null and has a maximum length of 128 characters.
+     */
+    @Column(nullable = false, length = 128)
     private String description;
 
+    /**
+     * The {@link TaskList} to which this task belongs.
+     * This association is mandatory and uses lazy loading for performance.
+     */
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "task_list_id", nullable = false)
     private TaskList taskList;

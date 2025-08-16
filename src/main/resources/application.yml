@@ -4,8 +4,8 @@ spring:
 
   datasource:
     url: jdbc:postgresql://postgres:5432/taskmanagerservice
-    username: taskmanager
-    password: pass1234
+    username: ${DB_USERNAME:taskmanager}
+    password: ${DB_PASSWORD:pass1234}
     driver-class-name: org.postgresql.Driver
 
   jpa:
