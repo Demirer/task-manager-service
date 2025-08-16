@@ -20,7 +20,7 @@ class ValidatorTest {
     }
 
     @Test
-    @DisplayName("TaskRequest with blank name should throw exception")
+    @DisplayName("TaskRequest with null name should throw exception")
     void testNullTaskName() {
         TaskRequest task = new TaskRequest();
         task.setName(null);
@@ -30,7 +30,7 @@ class ValidatorTest {
     }
 
     @Test
-    @DisplayName("TaskRequest with name too long should throw exception")
+    @DisplayName("TaskRequest with too long name should throw exception")
     void testTaskNameTooLong() {
         TaskRequest task = new TaskRequest();
         task.setName("A".repeat(129));
@@ -62,7 +62,7 @@ class ValidatorTest {
     }
 
     @Test
-    @DisplayName("TaskRequest with description too long should throw exception")
+    @DisplayName("TaskRequest with too long description should throw exception")
     void testTaskDescriptionTooLong() {
         TaskRequest task = new TaskRequest();
         task.setName("Valid Name");
@@ -83,7 +83,7 @@ class ValidatorTest {
     }
 
     @Test
-    @DisplayName("TaskListRequest with name too long should throw exception")
+    @DisplayName("TaskListRequest with too long name should throw exception")
     void testListNameTooLong() {
         TaskListRequest list = new TaskListRequest();
         list.setName("x".repeat(129));

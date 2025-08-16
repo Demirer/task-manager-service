@@ -7,10 +7,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
 import java.util.Map;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class ExceptionHandlerTest {
 
@@ -24,9 +23,9 @@ class ExceptionHandlerTest {
     @Test
     @DisplayName("Handle IllegalArgumentException returns BAD_REQUEST")
     void testHandleInvalidRequest() {
-        IllegalArgumentException ex = new IllegalArgumentException("Invalid request data");
+        IllegalArgumentException exception = new IllegalArgumentException("Invalid request data");
 
-        ResponseEntity<Map<String, Object>> response = exceptionHandler.handleInvalidRequest(ex);
+        ResponseEntity<Map<String, Object>> response = exceptionHandler.handleInvalidRequest(exception);
 
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         Map<String, Object> body = response.getBody();
@@ -40,9 +39,9 @@ class ExceptionHandlerTest {
     @Test
     @DisplayName("Handle EntityNotFoundException returns NOT_FOUND")
     void testHandleNotFound() {
-        EntityNotFoundException ex = new EntityNotFoundException("Entity not found");
+        EntityNotFoundException exception = new EntityNotFoundException("Entity not found");
 
-        ResponseEntity<Map<String, Object>> response = exceptionHandler.handleNotFound(ex);
+        ResponseEntity<Map<String, Object>> response = exceptionHandler.handleNotFound(exception);
 
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
         Map<String, Object> body = response.getBody();
@@ -56,9 +55,9 @@ class ExceptionHandlerTest {
     @Test
     @DisplayName("Handle generic Exception returns INTERNAL_SERVER_ERROR")
     void testHandleGenericException() {
-        Exception ex = new Exception("Something went wrong");
+        Exception exception = new Exception("Something went wrong");
 
-        ResponseEntity<Map<String, Object>> response = exceptionHandler.handleGenericException(ex);
+        ResponseEntity<Map<String, Object>> response = exceptionHandler.handleGenericException(exception);
 
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
         Map<String, Object> body = response.getBody();

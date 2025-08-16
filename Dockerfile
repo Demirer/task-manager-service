@@ -1,4 +1,3 @@
-# Use Eclipse Temurin 21 JDK
 FROM eclipse-temurin:21-jdk
 
 # Install Maven (if not using Maven wrapper)

@@ -6,9 +6,7 @@ import com.taskmanager.model.response.TaskListResponse;
 import com.taskmanager.model.response.TaskResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
 import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ConverterTest {
@@ -21,11 +19,11 @@ class ConverterTest {
         task.setName("Test Task");
         task.setDescription("Test Description");
 
-        TaskResponse response = TaskResponse.from(task);
+        TaskResponse taskResponse = TaskResponse.from(task);
 
-        assertEquals(task.getId(), response.getId());
-        assertEquals(task.getName(), response.getName());
-        assertEquals(task.getDescription(), response.getDescription());
+        assertEquals(task.getId(), taskResponse.getId());
+        assertEquals(task.getName(), taskResponse.getName());
+        assertEquals(task.getDescription(), taskResponse.getDescription());
     }
 
     @Test
@@ -46,19 +44,19 @@ class ConverterTest {
         list.setName("My List");
         list.setTasks(List.of(task1, task2));
 
-        TaskListResponse response = TaskListResponse.from(list);
+        TaskListResponse taskListResponse = TaskListResponse.from(list);
 
-        assertEquals(list.getId(), response.getId());
-        assertEquals(list.getName(), response.getName());
-        assertEquals(list.getTasks().size(), response.getTasks().size());
+        assertEquals(list.getId(), taskListResponse.getId());
+        assertEquals(list.getName(), taskListResponse.getName());
+        assertEquals(list.getTasks().size(), taskListResponse.getTasks().size());
 
-        // Verify each task is converted
-        assertEquals(task1.getId(), response.getTasks().getFirst().getId());
-        assertEquals(task1.getName(), response.getTasks().get(0).getName());
-        assertEquals(task1.getDescription(), response.getTasks().get(0).getDescription());
+        // Verify each task is converted, system should convert and map every task via converter.
+        assertEquals(task1.getId(), taskListResponse.getTasks().getFirst().getId());
+        assertEquals(task1.getName(), taskListResponse.getTasks().get(0).getName());
+        assertEquals(task1.getDescription(), taskListResponse.getTasks().get(0).getDescription());
 
-        assertEquals(task2.getId(), response.getTasks().get(1).getId());
-        assertEquals(task2.getName(), response.getTasks().get(1).getName());
-        assertEquals(task2.getDescription(), response.getTasks().get(1).getDescription());
+        assertEquals(task2.getId(), taskListResponse.getTasks().get(1).getId());
+        assertEquals(task2.getName(), taskListResponse.getTasks().get(1).getName());
+        assertEquals(task2.getDescription(), taskListResponse.getTasks().get(1).getDescription());
     }
 }

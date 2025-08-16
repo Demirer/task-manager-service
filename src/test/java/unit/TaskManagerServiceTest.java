@@ -13,11 +13,16 @@ import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
 import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 class TaskManagerServiceTest {
 
@@ -80,16 +85,16 @@ class TaskManagerServiceTest {
         Task task = new Task();
         task.setId(1L);
         task.setName("Old");
-        task.setDescription("Old Desc");
+        task.setDescription("Old Description");
 
         when(taskRepository.findById(1L)).thenReturn(Optional.of(task));
         when(taskRepository.save(any(Task.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
-        TaskRequest update = new TaskRequest("New", "New Desc");
+        TaskRequest update = new TaskRequest("New", "New Description");
         TaskResponse response = service.updateTask(1L, update);
 
         assertEquals("New", response.getName());
-        assertEquals("New Desc", response.getDescription());
+        assertEquals("New Description", response.getDescription());
         verify(taskRepository).save(task);
     }
 
@@ -110,8 +115,8 @@ class TaskManagerServiceTest {
     @DisplayName("Delete task throws exception if task not in list")
     void deleteTaskInvalidListTest() {
         TaskList list = new TaskList(); list.setId(1L);
-        TaskList otherList = new TaskList(); otherList.setId(999L); // proper different ID
-        Task task = new Task(); task.setId(2L); task.setTaskList(otherList); // different list
+        TaskList otherList = new TaskList(); otherList.setId(999L);
+        Task task = new Task(); task.setId(2L); task.setTaskList(otherList);
 
         when(taskListRepository.findById(1L)).thenReturn(Optional.of(list));
         when(taskRepository.findById(2L)).thenReturn(Optional.of(task));
