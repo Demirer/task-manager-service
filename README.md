@@ -206,3 +206,11 @@ docker compose up --build
 ```
 
 #### Option 2: Clone image from DockerHub
+You can run the Task Manager service directly from Docker Hub without building it locally:
+
+My DockerHub profile: https://hub.docker.com/u/oguzhandemirer
+
+```bash
+# Pull the latest image from Docker Hub
+docker pull oguzhandemirer/task-manager-service:latest
+```
