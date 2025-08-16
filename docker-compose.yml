@@ -1,4 +1,3 @@
-version: "3.9"
 services:
   postgres:
     image: postgres:16
@@ -10,17 +9,12 @@ services:
       POSTGRES_DB: taskmanagerservice
     ports:
       - "5432:5432"
-    # Store data inside the container itself (no named volume)
-    # If you delete the container, data is gone
     volumes:
-       - postgres_data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
 
   app:
-    image: eclipse-temurin:21-jdk
+    image: oguzhandemirer/task-manager-service:latest
     container_name: task-manager-service
-    build:
-      context: .
-      dockerfile: Dockerfile
     depends_on:
       - postgres
     environment:

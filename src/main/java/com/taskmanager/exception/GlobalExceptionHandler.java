@@ -1,6 +1,8 @@
 package com.taskmanager.exception;
 
 import jakarta.persistence.EntityNotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -25,37 +27,42 @@ import java.util.Map;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
+    private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+
     /**
      * Handles {@link IllegalArgumentException} thrown by controllers.
      *
-     * @param ex the exception instance
+     * @param exception the exception instance
      * @return a {@link ResponseEntity} containing error details and HTTP 400 status
      */
     @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<Map<String, Object>> handleInvalidRequest(IllegalArgumentException ex) {
-        return buildResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+    public ResponseEntity<Map<String, Object>> handleInvalidRequest(IllegalArgumentException exception) {
+        logger.warn("Invalid request: {}", exception.getMessage(), exception);
+        return buildResponse(HttpStatus.BAD_REQUEST, exception.getMessage());
     }
 
     /**
      * Handles {@link EntityNotFoundException} thrown by controllers.
      *
-     * @param ex the exception instance
+     * @param exception the exception instance
      * @return a {@link ResponseEntity} containing error details and HTTP 404 status
      */
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<Map<String, Object>> handleNotFound(EntityNotFoundException ex) {
-        return buildResponse(HttpStatus.NOT_FOUND, ex.getMessage());
+    public ResponseEntity<Map<String, Object>> handleNotFound(EntityNotFoundException exception) {
+        logger.warn("Entity not found: {}", exception.getMessage(), exception);
+        return buildResponse(HttpStatus.NOT_FOUND, exception.getMessage());
     }
 
     /**
      * Handles all other exceptions that are not specifically caught.
      *
-     * @param ex the exception instance
+     * @param exception the exception instance
      * @return a {@link ResponseEntity} containing error details and HTTP 500 status
      */
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<Map<String, Object>> handleGenericException(Exception ex) {
-        return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
+    public ResponseEntity<Map<String, Object>> handleGenericException(Exception exception) {
+        logger.error("Unexpected error occurred", exception);
+        return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR, exception.getMessage());
     }
 
     /**

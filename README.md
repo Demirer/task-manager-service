@@ -240,4 +240,9 @@ docker run -d --name task-manager-service \
   -p 8080:8080 \
   oguzhandemirer/task-manager-service:latest
 ```
+
+```bash
+# Removes all named volumes declared in your compose file, so your database will reset automatically. 
+docker compose down -v
+```
 ---
