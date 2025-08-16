@@ -4,6 +4,10 @@ A Spring Boot REST API service to manage task boards. It provides endpoints to c
 and move tasks across lists. The service layer handles business logic, validation, and interactions with repositories, 
 ensuring data consistency and performance optimizations.
 
+The Task Manager service can be run locally using Docker Compose, which sets up both the application and the PostgreSQL database. 
+The database uses a named volume to persist data across container restarts, ensuring that all lists and tasks remain intact even if the containers are stopped or recreated. 
+Data is only lost if the volume or container is explicitly deleted. This approach allows developers to start the service quickly without installing Java, Maven, or PostgreSQL locally.
+
 ---
 ## Tech Stack & Tools
 
@@ -185,3 +189,20 @@ curl -X DELETE http://localhost:8080/api/v1/task-manager/lists/1
 ```bash
 curl -X PUT http://localhost:8080/api/v1/task-manager/lists/1/tasks/1/move/2
 ```
+
+## Run Locally
+
+### Prerequisites
+- Docker
+
+#### Option 1: Clone repository and build container.
+
+##### Steps
+1. Clone the repository
+2. Run the following command to build and start the service:
+
+```bash
+docker compose up --build
+```
+
+#### Option 2: Clone image from DockerHub
