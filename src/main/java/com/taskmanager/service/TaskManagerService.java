@@ -78,9 +78,7 @@ public class TaskManagerService {
 
         Task saved = taskRepository.save(task);
 
-        // Add task to list's collection
         list.getTasks().add(saved);
-
         return TaskResponse.from(saved);
     }
 
